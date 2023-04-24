@@ -2,7 +2,7 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:text_to_speech/text_to_speech.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -23,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
     'When was Digitech Solution founded?': 'Digitech was founded in 2006',
     // add more Q&A pairs as needed
   };
+  stt.SpeechToText speech = stt.SpeechToText();
   onSend(ChatMessage message) async {
     setState(() {
       messages.insert(0, message);
@@ -58,13 +59,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  // Future<void> _getImage(ImageSource source) async{
-  //   final pickedFile = await ImagePicker().pickImage(source: source);
-  //   if(pickedFile != null){
-  //     // covert image to text
-  //     String text = await recogn
-  //   }
-  // }
+  void startListening() async {
+    bool available = await speech.initialize(
+      onStatus: (status) => print('onStatus: $status'),
+      onError: (error) => print('onError: $error'),
+    );
+    if (available) {
+      speech.listen(
+        onResult: (result) {
+          String text = result.recognizedWords;
+          textEditingController.text = text;
+        },
+      );
+    }
+  }
+
+
 
   List<ChatMessage> messages = [];
   ChatUser user = ChatUser(id: "1", firstName: "Le", lastName: "Vi");
@@ -76,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _openAI = OpenAI.instance.build(
-        token: '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',
+        token: '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',
         baseOption: HttpSetup(
             receiveTimeout: const Duration(seconds: 20),
             connectTimeout: const Duration(seconds: 20)),
@@ -148,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )),
                 ElevatedButton(onPressed: (){
+                    startListening();
                 }, child: Icon(Icons.mic),style: ElevatedButton.styleFrom(shape: CircleBorder(),
                     padding: EdgeInsets.all(12),
                     backgroundColor: Colors.greenAccent),),
