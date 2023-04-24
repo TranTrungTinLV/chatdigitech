@@ -142,13 +142,18 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Row(
               children: [
+                ElevatedButton(onPressed: (){
+                  startListening();
+                }, child: Icon(Icons.camera_alt),style: ElevatedButton.styleFrom(shape: CircleBorder(),
+                    padding: EdgeInsets.all(12),
+                    backgroundColor: Colors.greenAccent),),
                 Expanded(
                     child: Card(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 14.0),
+                    padding: const EdgeInsets.only(left: 10.0),
                     child: TextField(
                       controller: textEditingController,
                       decoration: InputDecoration(
@@ -157,6 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 )),
+
                 ElevatedButton(onPressed: (){
                     startListening();
                 }, child: Icon(Icons.mic),style: ElevatedButton.styleFrom(shape: CircleBorder(),
