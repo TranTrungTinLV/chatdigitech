@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   chat_gpt_sdk: ^2.1.1
   dash_chat_2: ^0.0.15
+  image_picker: ^0.8.7+4
+  speech_to_text: ^6.1.1
+  text_to_speech: ^0.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
